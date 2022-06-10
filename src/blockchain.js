@@ -17,7 +17,7 @@ class Blockchain {
     /**
      * Constructor of the class, you will need to setup your chain array and the height
      * of your chain (the length of your chain array).
-     * Also everytime you create a Blockchain class you will need to initialized the chain creating
+     * Also everytime you create a Blockchain class you will need to initialize the chain creating
      * the Genesis Block.
      * The methods in this class will always return a Promise to allow client applications or
      * other backends to call asynchronous functions.
@@ -56,7 +56,7 @@ class Blockchain {
      * or reject if an error happen during the execution.
      * You will need to check for the height to assign the `previousBlockHash`,
      * assign the `timestamp` and the correct `height`...At the end you need to 
-     * create the `block hash` and push the block into the chain array. Don't for get 
+     * create the `block hash` and push the block into the chain array. Don't forget 
      * to update the `this.height`
      * Note: the symbol `_` in the method name indicates in the javascript convention 
      * that this method is a private method. 
@@ -64,6 +64,15 @@ class Blockchain {
     _addBlock(block) {
         let self = this;
         return new Promise(async (resolve, reject) => {
+
+            // Updating the height
+            block.height = this.chain.length;
+            if (this.chain.push(block)){
+            resolve("Successfully added Block");
+            }
+            else {
+                reject("Failed to Add Block");
+            }
            
         });
     }
