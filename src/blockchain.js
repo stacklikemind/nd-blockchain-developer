@@ -66,7 +66,12 @@ class Blockchain {
         return new Promise(async (resolve, reject) => {
 
             // Updating the height
-            block.height = this.chain.length;
+            if (block.height !== -1){
+                block.previousBlockHash = this.chain[-1].hash;
+            }
+            block.height = this.chain.length+1;
+            block.time = Date.now();
+            block.hash = SHA256(block);
             if (this.chain.push(block)){
             resolve("Successfully added Block");
             }
@@ -81,8 +86,8 @@ class Blockchain {
      * The requestMessageOwnershipVerification(address) method
      * will allow you  to request a message that you will use to
      * sign it with your Bitcoin Wallet (Electrum or Bitcoin Core)
-     * This is the first step before submit your Block.
-     * The method return a Promise that will resolve with the message to be signed
+     * This is the first step before you submit your Block.
+     * The method returns a Promise that will resolve with the message to be signed
      * @param {*} address 
      */
     requestMessageOwnershipVerification(address) {

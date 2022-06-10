@@ -41,16 +41,16 @@ class Block {
             // Save in auxiliary variable the current block hash
             saved_hash = this.hash;
             // Recalculate the hash of the Block
-            this.hash = SHA256(this.body);
+            this.hash = SHA256(data);
             // Comparing if the hashes changed
-            this.check = (saved_hash === this.hash);
-            if (this.check) {
+            check = (saved_hash === this.hash);
+            if (check) {
                 // Returning the Block is valid
                 resolve(true);
             }
             else {
                 // Returning the Block is false
-                reject(false)
+                reject(false);
             }
 
 
