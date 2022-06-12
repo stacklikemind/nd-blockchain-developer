@@ -81,7 +81,7 @@ class Block {
             else {
                 reject("error parsing block");
             }
-        }
+        });
 
     }
 

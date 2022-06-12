@@ -47,6 +47,36 @@ class ApplicationServer {
 
 	start() {
 		let self = this;
+
+		// request genesis block
+		this.app.get('/get-genesis-block', function (req, res) {
+			res.json({
+				'block':this.blockchain
+			})
+		  })
+
+		// POST call to requestValidation
+		this.app.post('/requestValidation', function (req, res) {
+			res.send('TEST')
+		  })
+		
+		// sign message
+		this.app.post('/signMessage', function (req, res) {
+			res.send('TEST')
+		  })
+
+	    // submit star
+		this.app.post('/submitStar', function (req, res) {
+			res.send('TEST')
+		  })
+
+		// get stars by address
+		this.app.get('/getByAddress/', function (req, res) {
+			// res.json({
+			// 	'message':req.query.message
+			// })
+		  })
+
 		this.app.listen(this.app.get("port"), () => {
 			console.log(`Server Listening for ports: ${self.app.get("port")}`);
 		});

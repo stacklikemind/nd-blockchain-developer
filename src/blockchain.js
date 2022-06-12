@@ -66,7 +66,8 @@ class Blockchain {
         return new Promise(async (resolve, reject) => {
 
             // Updating the height
-            if (block.height !== -1){
+            if (this.height !== -1){
+                console.log("test");
                 block.previousBlockHash = this.chain[-1].hash;
             }
             block.height = this.chain.length+1;
