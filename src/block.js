@@ -39,18 +39,23 @@ class Block {
         let self = this;
         return new Promise((resolve, reject) => {
             // Save in auxiliary variable the current block hash
-            saved_hash = this.hash;
+            let saved_hash = self.hash;
             // Recalculate the hash of the Block
-            this.hash = SHA256(data);
+            // let tmpBlock = new Block({...self});
+            // tmpBlock.hash = null; //resetting the hash
+            // tmpBlock.time = self.time;
+            // tmpBlock.hash = SHA256(JSON.stringify(tmpBlock)).toString();
             // Comparing if the hashes changed
-            check = (saved_hash === this.hash);
-            if (check) {
+            //self.hash = null;
+            self.hash = SHA256(JSON.stringify(self)).toString();
+
+            if (saved_hash === self.hash) {
                 // Returning the Block is valid
                 resolve(true);
             }
             else {
                 // Returning the Block is false
-                reject(false);
+                reject("Hash Integrity broken");
             }
 
 
@@ -75,7 +80,7 @@ class Block {
             // Parse the data to an object to be retrieve.
             parsedBlock = JSON.parse(decodedBlock);
             // Resolve with the data if the object isn't the Genesis block
-            if (parsedBlock.height != 0){
+            if (parsedBlock.height != 0) {
                 resolve(parsedBlock.body);
             }
             else {

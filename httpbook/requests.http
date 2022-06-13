@@ -1,0 +1,53 @@
+@host = http://localhost:8000
+
+# Request Genesis Block
+GET {{host}}/block/height/0
+Content-Type: application/json
+Accept: application/json
+
+# Request Validation
+# getnewaddress "YourAddressLabelHere" "legacy"
+POST {{host}}/requestValidation
+Content-Type: application/json
+Accept: application/json
+
+{
+    "address": "mqpkaS3sFx1TqjLQuEdtyKm6ZWzxLDEhoB"
+}
+
+
+
+
+
+# Submit star
+POST {{host}}/submitstar
+Content-Type: application/json
+
+{
+    "address": "mqpkaS3sFx1TqjLQuEdtyKm6ZWzxLDEhoB",
+    "signature": "IGay+6ClM2+jWow5dX0cDJxWe1JmKqlst1SPmDbB3r+GLBuoyFZHFFay2G0/hmiDl9sxf+MZ2nErAos4uEigYC0=",
+    "message": "mqpkaS3sFx1TqjLQuEdtyKm6ZWzxLDEhoB:1655149106:starRegistry;",
+    "star": {
+        "dec": "68deg 52' 56.9",
+        "ra": "16h 29m 1.0s",
+        "story": "Testing the story 4"
+    }
+}
+
+
+# Get Block By Hash
+GET {{host}}/block/hash/daeca63af1b16d4a27b1ec9e5eb5c940ff853ee64e4fdfadc558c2f626a8515d
+Content-Type: application/json
+Accept: application/json
+
+
+# Get Block By Address
+GET {{host}}/blocks/mqpkaS3sFx1TqjLQuEdtyKm6ZWzxLDEhoB
+Content-Type: application/json
+Accept: application/json
+
+
+# ValidateChain
+GET {{host}}/validateChain
+Content-Type: application/json
+Accept: application/json
