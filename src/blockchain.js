@@ -122,15 +122,15 @@ class Blockchain {
     submitStar(address, message, signature, star) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-            let parsedTime = parseInt(message.split(':')[1]); //1655146072
+            let parsedTime = parseInt(message.split(':')[1]);
             let currentTime = parseInt(new Date().getTime().toString().slice(0, -3));
             let expired = currentTime - parsedTime > 300;
-            if (!expired) {
+            if (expired) {
                 reject({ "message": "signature expired" });
             }
-            if (expired) {
+            if (!expired) {
                 try {
-                    //bitcoinMessage.verify(message, address, signature);
+                    bitcoinMessage.verify(message, address, signature);
                     let block = new BlockClass.Block({ address, message, signature, star });
                     await this._addBlock(block);
                     self.height = self.height + 1;
@@ -212,20 +212,26 @@ class Blockchain {
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
-            // self.chain.forEach(element => {
-            //     element.validate().then(res => {
-            //         console.log(res);
-            //     }
-            //     ).catch(err => errorLog.push(err))
 
-            // });
-            //resolve(errorLog);
-            try {
-                let res = await self.chain[self.chain.length - 1].validate();
-            } catch (e) {
-                errorLog.push(e);
+            for (let i = 0; i < this.chain.length; i++) {
+                let currentBlock = self.chain[i];
+                let nextBlock = null;
+                if (this.chain.length !== 0) {
+                    nextBlock = self.chain[i + 1];
+                }
+
+                console.log(i);
+                try {
+                    let res = await currentBlock.validate();
+                } catch (e) {
+                    errorLog.push(e);
+                }
+                if (nextBlock) {
+                    if (currentBlock.hash !== nextBlock.previousBlockHash) {
+                        errorLog.push("Chain broken");
+                    }
+                }
             }
-            
             resolve(errorLog);
         });
     }

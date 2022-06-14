@@ -41,16 +41,13 @@ class Block {
             // Save in auxiliary variable the current block hash
             let saved_hash = self.hash;
             // Recalculate the hash of the Block
-            // let tmpBlock = new Block({...self});
-            // tmpBlock.hash = null; //resetting the hash
-            // tmpBlock.time = self.time;
-            // tmpBlock.hash = SHA256(JSON.stringify(tmpBlock)).toString();
-            // Comparing if the hashes changed
-            //self.hash = null;
-            self.hash = SHA256(JSON.stringify(self)).toString();
 
+            // Resetting hash before rehashing again
+            self.hash = null;
+            self.hash = SHA256(JSON.stringify(self)).toString();
+            // Comparing if the hashes changed
             if (saved_hash === self.hash) {
-                // Returning the Block is valid
+                // Returning the Block if valid
                 resolve(true);
             }
             else {
@@ -76,9 +73,9 @@ class Block {
         return new Promise((resolve, reject) => {
             // Getting the encoded data saved in the Block
             // Decoding the data to retrieve the JSON representation of the object
-            decodedBlock = hex2ascii(this.body);
+            let decodedBlock = hex2ascii(self.body);
             // Parse the data to an object to be retrieve.
-            parsedBlock = JSON.parse(decodedBlock);
+            let parsedBlock = JSON.parse(decodedBlock);
             // Resolve with the data if the object isn't the Genesis block
             if (parsedBlock.height != 0) {
                 resolve(parsedBlock.body);
